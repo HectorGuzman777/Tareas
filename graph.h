@@ -11,6 +11,8 @@
 #include <stack>
 #include <list>
 #include <algorithm>
+#include <regex>
+#include <vector>
 
 using namespace std;
 
@@ -40,48 +42,65 @@ public:
 		string print_path(vector<vector<int>>&,int ,int);
 		bool contains(list<int>, int);
 		void sortAdjList();
-		void loadGraphList(string, int, int);
+		void loadGraphList(string, int);
 		void loadGraphMat(string, int, int);
 };
 
 
-void Graph::loadGraphList(string name, int a, int b){
+void Graph::loadGraphList(string name, int a){
 	adjList = new vector<int>[a];
 	nodes = a;
 	string line;
-	ifstream lee (name);
 	int u, v;
-	if (lee.is_open()){
-		while (getline(lee, line)){
-			u = stoi(line.substr(1,1));
-			v = stoi(line.substr(4,1));
-			addEdgeAdjList(u,v);
-		}
-		lee.close(); // Closes the file
-	} else {
-		cout << "Unable to open file";
-	}
+
+	//leer el string
+	vector<int> numeros;
+	regex reg("\\d+");
+
+    // Crear un iterador para buscar coincidencias en la cadena
+    auto palabras_begin = sregex_iterator(name.begin(), name.end(), reg);
+    auto palabras_end = sregex_iterator();
+	for (sregex_iterator i = palabras_begin; i != palabras_end; ++i) {
+        smatch match = *i;
+        int num = stoi(match.str()); // Convertir la coincidencia a entero
+        numeros.push_back(num);
+    }
+
+ 	for (int i=0;i<numeros.size();i=i+2){
+        u = numeros[i];
+		v = numeros[i+1];
+		addEdgeAdjList(u,v);
+    }
+			
 	sortAdjList();
 }
 
 void Graph::loadGraphMat(string name, int a, int b){
 	adjMatrix = new int [a*b];
 	nodes = a;
-	for (int i = 0; i < a*b; i++)
+
+	//leer el string
+	vector<int> numeros;
+	regex reg("\\d+");
+
+    // Crear un iterador para buscar coincidencias en la cadena
+    auto palabras_begin = sregex_iterator(name.begin(), name.end(), reg);
+    auto palabras_end = sregex_iterator();
+	for (sregex_iterator i = palabras_begin; i != palabras_end; ++i) {
+        smatch match = *i;
+        int num = stoi(match.str()); // Convertir la coincidencia a entero
+        numeros.push_back(num);
+    }
+
+	for (int i = 0; i < a*b; i++){
 		adjMatrix[i] = 0;
-		string line;
-		ifstream lee (name);
-		int u, v;
-		if (lee.is_open()){
-			while (getline(lee, line)){
-				u = stoi(line.substr(1,1));
-				v = stoi(line.substr(4,1));
-				addEdgeAdjMatrix(u,v);
-			}
-			lee.close(); // Closes the file
-		} else {
-			cout << "Unable to open file";
-		}
+	}
+
+	for (int i=0;i<numeros.size();i=i+2){
+       int u = numeros[i];
+	   int v = numeros[i+1];
+		addEdgeAdjMatrix(u,v);
+    }
 }
 
 Graph::Graph() {
