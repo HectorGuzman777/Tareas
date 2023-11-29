@@ -53,16 +53,16 @@ void Graph::loadGraphList(string name, int a){
 	string line;
 	int u, v;
 
-	//leer el string
+	
 	vector<int> numeros;
 	regex reg("\\d+");
 
-    // Crear un iterador para buscar coincidencias en la cadena
+
     auto palabras_begin = sregex_iterator(name.begin(), name.end(), reg);
     auto palabras_end = sregex_iterator();
 	for (sregex_iterator i = palabras_begin; i != palabras_end; ++i) {
         smatch match = *i;
-        int num = stoi(match.str()); // Convertir la coincidencia a entero
+        int num = stoi(match.str());
         numeros.push_back(num);
     }
 
@@ -79,16 +79,16 @@ void Graph::loadGraphMat(string name, int a, int b){
 	adjMatrix = new int [a*b];
 	nodes = a;
 
-	//leer el string
+
 	vector<int> numeros;
 	regex reg("\\d+");
 
-    // Crear un iterador para buscar coincidencias en la cadena
+    
     auto palabras_begin = sregex_iterator(name.begin(), name.end(), reg);
     auto palabras_end = sregex_iterator();
 	for (sregex_iterator i = palabras_begin; i != palabras_end; ++i) {
         smatch match = *i;
-        int num = stoi(match.str()); // Convertir la coincidencia a entero
+        int num = stoi(match.str()); 
         numeros.push_back(num);
     }
 
